@@ -9,7 +9,7 @@ import (
 )
 
 func (c *Client) SetWebhook(webhookURL string) error {
-	payload := map[string]string{"url": webhookURL} //создаем тело запроса
+	payload := map[string]string{"url": webhookURL}
 	data, err := json.Marshal(payload)
 	if err != nil {
 		return fmt.Errorf("failed to marshal payload: %w", err)
