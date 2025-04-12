@@ -1,5 +1,7 @@
 package telegram
 
+//  AVAILABLE TYPES https://core.telegram.org/bots/api#available-types
+
 type ChatID any
 
 type User struct {
@@ -553,6 +555,10 @@ type VideoChatEnded struct {
 
 type VideoChatParticipantsInvited struct {
 	Users []User `json:"users"`
+}
+
+type PaidMessagePriceChanged struct {
+	PaidMessageStarCount int `json:"paid_message_star_count"`
 }
 
 type GiveawayCreated struct {
@@ -1365,6 +1371,689 @@ type InputStoryContentVideo struct {
 }
 
 //-------------------------------------------------------------
+// STICKER https://core.telegram.org/bots/api#stickers
+
+type Sticker struct {
+	FileID           string        `json:"file_id"`
+	FileUniqueID     string        `json:"file_unique_id"`
+	Type             string        `json:"type"`
+	Width            int           `json:"width"`
+	Height           int           `json:"height"`
+	IsAnimated       bool          `json:"is_animated"`
+	IsVideo          bool          `json:"is_video"`
+	Thumbnail        *PhotoSize    `json:"thumbnail,omitempty"`
+	Emoji            *string       `json:"emoji,omitempty"`
+	SetName          *string       `json:"set_name,omitempty"`
+	PremiumAnimation *File         `json:"premium_animation,omitempty"`
+	MaskPosition     *MaskPosition `json:"mask_position,omitempty"`
+	CustomEmojiID    *string       `json:"custom_emoji_id,omitempty"`
+	NeedsRepainting  *bool         `json:"needs_repainting,omitempty"`
+	FileSize         *int64        `json:"file_size,omitempty"`
+}
+
+type StickerSet struct {
+	Name        string     `json:"name"`
+	Title       string     `json:"title"`
+	StickerType string     `json:"sticker_type"`
+	Stickers    []Sticker  `json:"stickers"`
+	Thumbnail   *PhotoSize `json:"thumbnail,omitempty"`
+}
+
+type MaskPosition struct {
+	Point  string  `json:"point"`
+	XShift float64 `json:"x_shift"`
+	YShift float64 `json:"y_shift"`
+	Scale  float64 `json:"scale"`
+}
+
+type InputSticker struct {
+	Sticker      string        `json:"sticker"`
+	Format       string        `json:"format"`
+	EmojiList    []string      `json:"emoji_list"`
+	MaskPosition *MaskPosition `json:"mask_position,omitempty"`
+	Keywords     []string      `json:"keywords,omitempty"`
+}
+
+//-------------------------------------------------------------
+// INLINE TYPES https://core.telegram.org/bots/api#inline-mode
+
+type InlineQuery struct {
+	ID       string    `json:"id"`
+	From     User      `json:"from"`
+	Query    string    `json:"query"`
+	Offset   string    `json:"offset"`
+	ChatType *string   `json:"chat_type,omitempty"`
+	Location *Location `json:"location,omitempty"`
+}
+
+type InlineQueryResultsButton struct {
+	Text           string      `json:"text"`
+	WebApp         *WebAppInfo `json:"web_app,omitempty"`
+	StartParameter *string     `json:"start_parameter,omitempty"`
+}
+
+type InlineQueryResult any
+
+type InlineQueryResultArticle struct {
+	Type                string                `json:"type"` // "article"
+	ID                  string                `json:"id"`
+	Title               string                `json:"title"`
+	InputMessageContent InputMessageContent   `json:"input_message_content"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	URL                 *string               `json:"url,omitempty"`
+	Description         *string               `json:"description,omitempty"`
+	ThumbnailURL        *string               `json:"thumbnail_url,omitempty"`
+	ThumbnailWidth      *int                  `json:"thumbnail_width,omitempty"`
+	ThumbnailHeight     *int                  `json:"thumbnail_height,omitempty"`
+}
+type InlineQueryResultPhoto struct {
+	Type                  string                `json:"type"` // "photo"
+	ID                    string                `json:"id"`
+	PhotoURL              string                `json:"photo_url"`
+	ThumbnailURL          string                `json:"thumbnail_url"`
+	PhotoWidth            *int                  `json:"photo_width,omitempty"`
+	PhotoHeight           *int                  `json:"photo_height,omitempty"`
+	Title                 *string               `json:"title,omitempty"`
+	Description           *string               `json:"description,omitempty"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultGif struct {
+	Type                  string                `json:"type"` // "gif"
+	ID                    string                `json:"id"`
+	GifURL                string                `json:"gif_url"`
+	GifWidth              *int                  `json:"gif_width,omitempty"`
+	GifHeight             *int                  `json:"gif_height,omitempty"`
+	GifDuration           *int                  `json:"gif_duration,omitempty"`
+	ThumbnailURL          string                `json:"thumbnail_url"`
+	ThumbnailMimeType     *string               `json:"thumbnail_mime_type,omitempty"`
+	Title                 *string               `json:"title,omitempty"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultMpeg4Gif struct {
+	Type                  string                `json:"type"` // "mpeg4_gif"
+	ID                    string                `json:"id"`
+	Mpeg4URL              string                `json:"mpeg4_url"`
+	Mpeg4Width            *int                  `json:"mpeg4_width,omitempty"`
+	Mpeg4Height           *int                  `json:"mpeg4_height,omitempty"`
+	Mpeg4Duration         *int                  `json:"mpeg4_duration,omitempty"`
+	ThumbnailURL          string                `json:"thumbnail_url"`
+	ThumbnailMimeType     *string               `json:"thumbnail_mime_type,omitempty"`
+	Title                 *string               `json:"title,omitempty"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultVideo struct {
+	Type                  string                `json:"type"` // "video"
+	ID                    string                `json:"id"`
+	VideoURL              string                `json:"video_url"`
+	MimeType              string                `json:"mime_type"`
+	ThumbnailURL          string                `json:"thumbnail_url"`
+	Title                 string                `json:"title"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	VideoWidth            *int                  `json:"video_width,omitempty"`
+	VideoHeight           *int                  `json:"video_height,omitempty"`
+	VideoDuration         *int                  `json:"video_duration,omitempty"`
+	Description           *string               `json:"description,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultAudio struct {
+	Type                string                `json:"type"` // "audio"
+	ID                  string                `json:"id"`
+	AudioURL            string                `json:"audio_url"`
+	Title               string                `json:"title"`
+	Caption             *string               `json:"caption,omitempty"`
+	ParseMode           *string               `json:"parse_mode,omitempty"`
+	CaptionEntities     []MessageEntity       `json:"caption_entities,omitempty"`
+	Performer           *string               `json:"performer,omitempty"`
+	AudioDuration       *int                  `json:"audio_duration,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultVoice struct {
+	Type                string                `json:"type"` // "voice"
+	ID                  string                `json:"id"`
+	VoiceURL            string                `json:"voice_url"`
+	Title               string                `json:"title"`
+	Caption             *string               `json:"caption,omitempty"`
+	ParseMode           *string               `json:"parse_mode,omitempty"`
+	CaptionEntities     []MessageEntity       `json:"caption_entities,omitempty"`
+	VoiceDuration       *int                  `json:"voice_duration,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultDocument struct {
+	Type                string                `json:"type"` // "document"
+	ID                  string                `json:"id"`
+	Title               string                `json:"title"`
+	Caption             *string               `json:"caption,omitempty"`
+	ParseMode           *string               `json:"parse_mode,omitempty"`
+	CaptionEntities     []MessageEntity       `json:"caption_entities,omitempty"`
+	DocumentURL         string                `json:"document_url"`
+	MimeType            string                `json:"mime_type"`
+	Description         *string               `json:"description,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+	ThumbnailURL        *string               `json:"thumbnail_url,omitempty"`
+	ThumbnailWidth      *int                  `json:"thumbnail_width,omitempty"`
+	ThumbnailHeight     *int                  `json:"thumbnail_height,omitempty"`
+}
+
+type InlineQueryResultLocation struct {
+	Type                 string                `json:"type"` // "location"
+	ID                   string                `json:"id"`
+	Latitude             float64               `json:"latitude"`
+	Longitude            float64               `json:"longitude"`
+	Title                string                `json:"title"`
+	HorizontalAccuracy   *float64              `json:"horizontal_accuracy,omitempty"`
+	LivePeriod           *int                  `json:"live_period,omitempty"`
+	Heading              *int                  `json:"heading,omitempty"`
+	ProximityAlertRadius *int                  `json:"proximity_alert_radius,omitempty"`
+	ReplyMarkup          *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent  InputMessageContent   `json:"input_message_content,omitempty"`
+	ThumbnailURL         *string               `json:"thumbnail_url,omitempty"`
+	ThumbnailWidth       *int                  `json:"thumbnail_width,omitempty"`
+	ThumbnailHeight      *int                  `json:"thumbnail_height,omitempty"`
+}
+
+type InlineQueryResultVenue struct {
+	Type                string                `json:"type"` // "venue"
+	ID                  string                `json:"id"`
+	Latitude            float64               `json:"latitude"`
+	Longitude           float64               `json:"longitude"`
+	Title               string                `json:"title"`
+	Address             string                `json:"address"`
+	FoursquareID        *string               `json:"foursquare_id,omitempty"`
+	FoursquareType      *string               `json:"foursquare_type,omitempty"`
+	GooglePlaceID       *string               `json:"google_place_id,omitempty"`
+	GooglePlaceType     *string               `json:"google_place_type,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+	ThumbnailURL        *string               `json:"thumbnail_url,omitempty"`
+	ThumbnailWidth      *int                  `json:"thumbnail_width,omitempty"`
+	ThumbnailHeight     *int                  `json:"thumbnail_height,omitempty"`
+}
+
+type InlineQueryResultContact struct {
+	Type                string                `json:"type"` // "contact"
+	ID                  string                `json:"id"`
+	PhoneNumber         string                `json:"phone_number"`
+	FirstName           string                `json:"first_name"`
+	LastName            *string               `json:"last_name,omitempty"`
+	Vcard               *string               `json:"vcard,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+	ThumbnailURL        *string               `json:"thumbnail_url,omitempty"`
+	ThumbnailWidth      *int                  `json:"thumbnail_width,omitempty"`
+	ThumbnailHeight     *int                  `json:"thumbnail_height,omitempty"`
+}
+
+type InlineQueryResultGame struct {
+	Type          string                `json:"type"` // "game"
+	ID            string                `json:"id"`
+	GameShortName string                `json:"game_short_name"`
+	ReplyMarkup   *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+}
+
+type InlineQueryResultCachedPhoto struct {
+	Type                  string                `json:"type"` // "photo"
+	ID                    string                `json:"id"`
+	PhotoFileID           string                `json:"photo_file_id"`
+	Title                 *string               `json:"title,omitempty"`
+	Description           *string               `json:"description,omitempty"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultCachedGif struct {
+	Type                  string                `json:"type"` // "gif"
+	ID                    string                `json:"id"`
+	GifFileID             string                `json:"gif_file_id"`
+	Title                 *string               `json:"title,omitempty"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultCachedMpeg4Gif struct {
+	Type                  string                `json:"type"` // "mpeg4_gif"
+	ID                    string                `json:"id"`
+	Mpeg4FileID           string                `json:"mpeg4_file_id"`
+	Title                 *string               `json:"title,omitempty"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultCachedSticker struct {
+	Type                string                `json:"type"` // "sticker"
+	ID                  string                `json:"id"`
+	StickerFileID       string                `json:"sticker_file_id"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultCachedDocument struct {
+	Type                string                `json:"type"` // "document"
+	ID                  string                `json:"id"`
+	Title               string                `json:"title"`
+	DocumentFileID      string                `json:"document_file_id"`
+	Description         *string               `json:"description,omitempty"`
+	Caption             *string               `json:"caption,omitempty"`
+	ParseMode           *string               `json:"parse_mode,omitempty"`
+	CaptionEntities     []MessageEntity       `json:"caption_entities,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultCachedVideo struct {
+	Type                  string                `json:"type"` // "video"
+	ID                    string                `json:"id"`
+	VideoFileID           string                `json:"video_file_id"`
+	Title                 string                `json:"title"`
+	Description           *string               `json:"description,omitempty"`
+	Caption               *string               `json:"caption,omitempty"`
+	ParseMode             *string               `json:"parse_mode,omitempty"`
+	CaptionEntities       []MessageEntity       `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia *bool                 `json:"show_caption_above_media,omitempty"`
+	ReplyMarkup           *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent   InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultCachedVoice struct {
+	Type                string                `json:"type"` // "voice"
+	ID                  string                `json:"id"`
+	VoiceFileID         string                `json:"voice_file_id"`
+	Title               string                `json:"title"`
+	Caption             *string               `json:"caption,omitempty"`
+	ParseMode           *string               `json:"parse_mode,omitempty"`
+	CaptionEntities     []MessageEntity       `json:"caption_entities,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InlineQueryResultCachedAudio struct {
+	Type                string                `json:"type"` // "audio"
+	ID                  string                `json:"id"`
+	AudioFileID         string                `json:"audio_file_id"`
+	Caption             *string               `json:"caption,omitempty"`
+	ParseMode           *string               `json:"parse_mode,omitempty"`
+	CaptionEntities     []MessageEntity       `json:"caption_entities,omitempty"`
+	ReplyMarkup         *InlineKeyboardMarkup `json:"reply_markup,omitempty"`
+	InputMessageContent InputMessageContent   `json:"input_message_content,omitempty"`
+}
+
+type InputMessageContent any
+
+type InputTextMessageContent struct {
+	MessageText        string              `json:"message_text"`
+	ParseMode          *string             `json:"parse_mode,omitempty"`
+	Entities           []MessageEntity     `json:"entities,omitempty"`
+	LinkPreviewOptions *LinkPreviewOptions `json:"link_preview_options,omitempty"`
+}
+
+type InputLocationMessageContent struct {
+	Latitude             float64  `json:"latitude"`
+	Longitude            float64  `json:"longitude"`
+	HorizontalAccuracy   *float64 `json:"horizontal_accuracy,omitempty"`
+	LivePeriod           *int     `json:"live_period,omitempty"`
+	Heading              *int     `json:"heading,omitempty"`
+	ProximityAlertRadius *int     `json:"proximity_alert_radius,omitempty"`
+}
+
+type InputVenueMessageContent struct {
+	Latitude        float64 `json:"latitude"`
+	Longitude       float64 `json:"longitude"`
+	Title           string  `json:"title"`
+	Address         string  `json:"address"`
+	FoursquareID    *string `json:"foursquare_id,omitempty"`
+	FoursquareType  *string `json:"foursquare_type,omitempty"`
+	GooglePlaceID   *string `json:"google_place_id,omitempty"`
+	GooglePlaceType *string `json:"google_place_type,omitempty"`
+}
+
+type InputContactMessageContent struct {
+	PhoneNumber string  `json:"phone_number"`
+	FirstName   string  `json:"first_name"`
+	LastName    *string `json:"last_name,omitempty"`
+	Vcard       *string `json:"vcard,omitempty"`
+}
+
+type InputInvoiceMessageContent struct {
+	Title                     string         `json:"title"`
+	Description               string         `json:"description"`
+	Payload                   string         `json:"payload"`
+	ProviderToken             *string        `json:"provider_token,omitempty"`
+	Currency                  string         `json:"currency"`
+	Prices                    []LabeledPrice `json:"prices"` // Assumes LabeledPrice is defined
+	MaxTipAmount              *int           `json:"max_tip_amount,omitempty"`
+	SuggestedTipAmounts       []int          `json:"suggested_tip_amounts,omitempty"`
+	ProviderData              *string        `json:"provider_data,omitempty"`
+	PhotoURL                  *string        `json:"photo_url,omitempty"`
+	PhotoSize                 *int           `json:"photo_size,omitempty"`
+	PhotoWidth                *int           `json:"photo_width,omitempty"`
+	PhotoHeight               *int           `json:"photo_height,omitempty"`
+	NeedName                  *bool          `json:"need_name,omitempty"`
+	NeedPhoneNumber           *bool          `json:"need_phone_number,omitempty"`
+	NeedEmail                 *bool          `json:"need_email,omitempty"`
+	NeedShippingAddress       *bool          `json:"need_shipping_address,omitempty"`
+	SendPhoneNumberToProvider *bool          `json:"send_phone_number_to_provider,omitempty"`
+	SendEmailToProvider       *bool          `json:"send_email_to_provider,omitempty"`
+	IsFlexible                *bool          `json:"is_flexible,omitempty"`
+}
+
+type ChosenInlineResult struct {
+	ResultID        string    `json:"result_id"`
+	From            User      `json:"from"`               // Assumes User is defined
+	Location        *Location `json:"location,omitempty"` // Assumes Location is defined
+	InlineMessageID *string   `json:"inline_message_id,omitempty"`
+	Query           string    `json:"query"`
+}
+
+type SentWebAppMessage struct {
+	InlineMessageID *string `json:"inline_message_id,omitempty"`
+}
+
+type PreparedInlineMessage struct {
+	ID             string `json:"id"`
+	ExpirationDate int    `json:"expiration_date"`
+}
+
+//-------------------------------------------------------------
+//PAYMENTS TYPES https://core.telegram.org/bots/api#payments
+
+type LabeledPrice struct {
+	Label  string `json:"label"`
+	Amount int    `json:"amount"`
+}
+
+type Invoice struct {
+	Title          string `json:"title"`
+	Description    string `json:"description"`
+	StartParameter string `json:"start_parameter"`
+	Currency       string `json:"currency"`
+	TotalAmount    int    `json:"total_amount"`
+}
+
+type ShippingAddress struct {
+	CountryCode string `json:"country_code"`
+	State       string `json:"state"`
+	City        string `json:"city"`
+	StreetLine1 string `json:"street_line1"`
+	StreetLine2 string `json:"street_line2"`
+	PostCode    string `json:"post_code"`
+}
+
+type OrderInfo struct {
+	Name            *string          `json:"name,omitempty"`
+	PhoneNumber     *string          `json:"phone_number,omitempty"`
+	Email           *string          `json:"email,omitempty"`
+	ShippingAddress *ShippingAddress `json:"shipping_address,omitempty"`
+}
+
+type ShippingOption struct {
+	ID     string         `json:"id"`
+	Title  string         `json:"title"`
+	Prices []LabeledPrice `json:"prices"`
+}
+
+type SuccessfulPayment struct {
+	Currency                   string     `json:"currency"`
+	TotalAmount                int        `json:"total_amount"`
+	InvoicePayload             string     `json:"invoice_payload"`
+	SubscriptionExpirationDate *int64     `json:"subscription_expiration_date,omitempty"`
+	IsRecurring                *bool      `json:"is_recurring,omitempty"`
+	IsFirstRecurring           *bool      `json:"is_first_recurring,omitempty"`
+	ShippingOptionID           *string    `json:"shipping_option_id,omitempty"`
+	OrderInfo                  *OrderInfo `json:"order_info,omitempty"`
+	TelegramPaymentChargeID    string     `json:"telegram_payment_charge_id"`
+	ProviderPaymentChargeID    string     `json:"provider_payment_charge_id"`
+}
+
+type RefundedPayment struct {
+	Currency                string  `json:"currency"`
+	TotalAmount             int     `json:"total_amount"`
+	InvoicePayload          string  `json:"invoice_payload"`
+	TelegramPaymentChargeID string  `json:"telegram_payment_charge_id"`
+	ProviderPaymentChargeID *string `json:"provider_payment_charge_id,omitempty"`
+}
+
+type ShippingQuery struct {
+	ID              string          `json:"id"`
+	From            User            `json:"from"`
+	InvoicePayload  string          `json:"invoice_payload"`
+	ShippingAddress ShippingAddress `json:"shipping_address"`
+}
+
+type PreCheckoutQuery struct {
+	ID               string     `json:"id"`
+	From             User       `json:"from"`
+	Currency         string     `json:"currency"`
+	TotalAmount      int        `json:"total_amount"`
+	InvoicePayload   string     `json:"invoice_payload"`
+	ShippingOptionID *string    `json:"shipping_option_id,omitempty"`
+	OrderInfo        *OrderInfo `json:"order_info,omitempty"`
+}
+
+type PaidMediaPurchased struct {
+	From             User   `json:"from"`
+	PaidMediaPayload string `json:"paid_media_payload"`
+}
+
+type RevenueWithdrawalState any
+
+type RevenueWithdrawalStatePending struct {
+	Type string `json:"type"`
+}
+
+type RevenueWithdrawalStateSucceeded struct {
+	Type string `json:"type"`
+	Date int64  `json:"date"`
+	URL  string `json:"url"`
+}
+
+type RevenueWithdrawalStateFailed struct {
+	Type string `json:"type"`
+}
+
+type AffiliateInfo struct {
+	AffiliateUser      *User `json:"affiliate_user,omitempty"`
+	AffiliateChat      *Chat `json:"affiliate_chat,omitempty"`
+	CommissionPerMille int   `json:"commission_per_mille"`
+	Amount             int   `json:"amount"`
+	NanostarAmount     *int  `json:"nanostar_amount,omitempty"`
+}
+
+type TransactionPartner any
+
+type TransactionPartnerUser struct {
+	Type                        string         `json:"type"`
+	TransactionType             string         `json:"transaction_type"`
+	User                        User           `json:"user"`
+	Affiliate                   *AffiliateInfo `json:"affiliate,omitempty"`
+	InvoicePayload              *string        `json:"invoice_payload,omitempty"`
+	SubscriptionPeriod          *int           `json:"subscription_period,omitempty"`
+	PaidMedia                   []PaidMedia    `json:"paid_media,omitempty"`
+	PaidMediaPayload            *string        `json:"paid_media_payload,omitempty"`
+	Gift                        *Gift          `json:"gift,omitempty"`
+	PremiumSubscriptionDuration *int           `json:"premium_subscription_duration,omitempty"`
+}
+
+type TransactionPartnerChat struct {
+	Type string `json:"type"`
+	Chat Chat   `json:"chat"`
+	Gift *Gift  `json:"gift,omitempty"`
+}
+
+type TransactionPartnerAffiliateProgram struct {
+	Type               string `json:"type"`
+	SponsorUser        *User  `json:"sponsor_user,omitempty"`
+	CommissionPerMille int    `json:"commission_per_mille"`
+}
+
+type TransactionPartnerFragment struct {
+	Type            string                 `json:"type"`
+	WithdrawalState RevenueWithdrawalState `json:"withdrawal_state,omitempty"`
+}
+
+type TransactionPartnerTelegramAds struct {
+	Type string `json:"type"`
+}
+
+type TransactionPartnerTelegramApi struct {
+	Type         string `json:"type"`
+	RequestCount int    `json:"request_count"`
+}
+
+type TransactionPartnerOther struct {
+	Type string `json:"type"`
+}
+
+type StarTransaction struct {
+	ID             string             `json:"id"`
+	Amount         int                `json:"amount"`
+	NanostarAmount *int               `json:"nanostar_amount,omitempty"`
+	Date           int64              `json:"date"`
+	Source         TransactionPartner `json:"source,omitempty"`
+	Receiver       TransactionPartner `json:"receiver,omitempty"`
+}
+
+type StarTransactions struct {
+	Transactions []StarTransaction `json:"transactions"`
+}
+
+//-------------------------------------------------------------
+//TELEGRAM PASSPORT TYPES https://core.telegram.org/bots/api#telegram-passport
+
+type PassportData struct {
+	Data        []EncryptedPassportElement `json:"data"`
+	Credentials EncryptedCredentials       `json:"credentials"`
+}
+
+type PassportFile struct {
+	FileID       string `json:"file_id"`
+	FileUniqueID string `json:"file_unique_id"`
+	FileSize     int64  `json:"file_size"`
+	FileDate     int64  `json:"file_date"`
+}
+
+type EncryptedPassportElement struct {
+	Type        string         `json:"type"`
+	Data        *string        `json:"data,omitempty"`
+	PhoneNumber *string        `json:"phone_number,omitempty"`
+	Email       *string        `json:"email,omitempty"`
+	Files       []PassportFile `json:"files,omitempty"`
+	FrontSide   *PassportFile  `json:"front_side,omitempty"`
+	ReverseSide *PassportFile  `json:"reverse_side,omitempty"`
+	Selfie      *PassportFile  `json:"selfie,omitempty"`
+	Translation []PassportFile `json:"translation,omitempty"`
+	Hash        string         `json:"hash"`
+}
+
+type EncryptedCredentials struct {
+	Data   string `json:"data"`
+	Hash   string `json:"hash"`
+	Secret string `json:"secret"`
+}
+
+type PassportElementError any
+
+type PassportElementErrorDataField struct {
+	Source    string `json:"source"`
+	Type      string `json:"type"`
+	FieldName string `json:"field_name"`
+	DataHash  string `json:"data_hash"`
+	Message   string `json:"message"`
+}
+
+type PassportElementErrorFrontSide struct {
+	Source   string `json:"source"`
+	Type     string `json:"type"`
+	FileHash string `json:"file_hash"`
+	Message  string `json:"message"`
+}
+
+type PassportElementErrorReverseSide struct {
+	Source   string `json:"source"`
+	Type     string `json:"type"`
+	FileHash string `json:"file_hash"`
+	Message  string `json:"message"`
+}
+
+type PassportElementErrorSelfie struct {
+	Source   string `json:"source"`
+	Type     string `json:"type"`
+	FileHash string `json:"file_hash"`
+	Message  string `json:"message"`
+}
+
+type PassportElementErrorFile struct {
+	Source   string `json:"source"`
+	Type     string `json:"type"`
+	FileHash string `json:"file_hash"`
+	Message  string `json:"message"`
+}
+
+type PassportElementErrorFiles struct {
+	Source     string   `json:"source"`
+	Type       string   `json:"type"`
+	FileHashes []string `json:"file_hashes"`
+	Message    string   `json:"message"`
+}
+
+type PassportElementErrorTranslationFile struct {
+	Source   string `json:"source"`
+	Type     string `json:"type"`
+	FileHash string `json:"file_hash"`
+	Message  string `json:"message"`
+}
+
+type PassportElementErrorTranslationFiles struct {
+	Source     string   `json:"source"`
+	Type       string   `json:"type"`
+	FileHashes []string `json:"file_hashes"`
+	Message    string   `json:"message"`
+}
+
+type PassportElementErrorUnspecified struct {
+	Source      string `json:"source"`
+	Type        string `json:"type"`
+	ElementHash string `json:"element_hash"`
+	Message     string `json:"message"`
+}
 
 //-------------------------------------------------------------
 //GAME TYPES
